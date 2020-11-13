@@ -1,3 +1,5 @@
+const {userValidation} = require('./validations')
+
 module.exports = app => {
     const usersDB = app.data.users
     const controller = {}
