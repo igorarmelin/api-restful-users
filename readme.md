@@ -10,6 +10,6 @@ $npm start
 
 - Usar o **Postman**
 - **GET**: **http://localhost:8080/users/** => Listar todos cadastros
-- **GET**: **http://localhost:8080/users/[numero do cpf]** => Exibir dados do usuário com CPF especificado
+- **GET**: **http://localhost:8080/users/[numerocpf]** => Exibir dados do usuário com CPF especificado
 - **POST**: **http://localhost:8080/users/** => Cadastrar usuário
-- **DELETE**: **http://localhost:8080/users/[numero do cpf]** => Deletar cadastro do usuário com CPF especificado
+- **DELETE**: **http://localhost:8080/users/[numerocpf]** => Deletar cadastro do usuário com CPF especificado
