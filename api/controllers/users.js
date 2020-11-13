@@ -25,7 +25,7 @@ module.exports = app => {
     controller.listCPFUsers = (req, res) => {
         const {cpf} = req.params
 
-        const findUser = usersMock.data.find((user) => user.cpf === cpf)
+        const findUser = usersMock.data.find((user) => user.cpf == cpf)
 
         if(!findUser) {
             res.status(404).send('Usuário não encontrado.')
@@ -37,7 +37,7 @@ module.exports = app => {
     controller.deleteUsers = (req, res) => {
         const {cpf} = req.params
 
-        const findUser = usersMock.data.find((user) => user.cpf === cpf)
+        const findUser = usersMock.data.find((user) => user.cpf == cpf)
 
         if(!findUser) {
             res.status(404).send('Usuário não encontrado.')
