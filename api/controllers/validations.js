@@ -1,19 +1,19 @@
 const Joi = require('joi')
 
-const userValidation = Joi.object({
+const userValidation = Joi.object().keys({
     nome: Joi.string()
         .min(2)
         .max(30)
         .required(),
         
-    telefone: Joi.number()
-        .integer()
-        .positive()
+    telefone: Joi.string()
+        .min(10)
+        .max(10)
         .required(),
 
-    cpf: Joi.number()
-        .integer()
-        .positive()
+    cpf: Joi.string()
+        .min(11)
+        .min(11)
         .required(),
 
     email: Joi.string()
@@ -21,8 +21,8 @@ const userValidation = Joi.object({
         .required(),
 
     dataNasc: Joi.date()
-        .required()
-        .max('12-31-2002'),
+        .raw()
+        .required(),
 
 })
 
