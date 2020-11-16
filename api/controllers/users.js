@@ -1,3 +1,4 @@
+const Joi = require('joi')
 const {userValidation} = require('./validations')
 
 module.exports = app => {
@@ -10,8 +11,21 @@ module.exports = app => {
 
     controller.listUsers = (req, res) => res.status(200).json(usersDB)
 
-    controller.saveUsers = (req, res) => {
-        usersMock.data.push({
+    controller.saveUsers = async (req, res, next) => {
+
+        try{
+            const user = await userValidation.validateAsync(req.body)
+            
+            usersMock.data.push(user)
+            
+            res.status(201).send(`User ${user.nome} added to the database!`)
+        } catch (error) {
+            if (error.isJoi === true ) error.status = 422 && res.send(error.message)
+    
+                next(error)
+        }
+
+        /* usersMock.data.push({
             nome: req.body.nome,
             telefone: req.body.telefone,
             cpf: req.body.cpf,
@@ -19,7 +33,7 @@ module.exports = app => {
             dataNasc: req.body.dataNasc,
         })
 
-        res.status(201).json(usersMock)
+        res.status(201).json(usersMock) */
     }
 
     controller.listCPFUsers = (req, res) => {

@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const userValidation = Joi.object().keys({
+const userValidation = Joi.object({
     nome: Joi.string()
         .min(2)
         .max(30)
