@@ -24,6 +24,9 @@ const userValidation = Joi.object({
         .raw()
         .required(),
 
+    senha: Joi.string()
+        .min(6)
+        .required()
 })
 
 module.exports = {

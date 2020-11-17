@@ -6,7 +6,8 @@
                 "telefone": "1933333333",
                 "cpf": "11188877701",
                 "email": "igor_api@testemail.com",
-                "dataNasc": "14/10/1997"
+                "dataNasc": "14/10/1997",
+                "senha": "123"
             }
         ]
     }
