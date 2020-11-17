@@ -1,6 +1,7 @@
 const {userValidation} = require('./validations')
 require("dotenv-safe").config();
 const JWT = require('jsonwebtoken');
+const { func } = require('joi');
 
 module.exports = app => {
     const usersDB = app.data.users
@@ -10,27 +11,31 @@ module.exports = app => {
         users: usersMock,
     } = usersDB
 
-    const verifyJWT = (req, res, next) => {
+    controller.verifyJWT = (req, res, next) => {
         const token = req.headers['x-access-token']
+        const {cpf} = req.body
         if(!token) return res.status(401).json({auth: false, message: 'No token provided.'})
     
-        JWT.verify(token, process.env.SECRET, function(err, decoded) {
+        JWT.verify(token, process.env.SECRET, (err, decoded) => {
             if(err) return res.status(500).json({auth: false, message: 'Failed to authenticate token.'})
 
-            req._id = decoded.id
+            cpf = decoded.cpf
             next()
         })
     }
 
-    controller.loginUsers = (req, res, next) => {
-        if(req.body.cpf === req.params.cpf && req.body.senha === req.params.senha){
-            const id = req.body._id
-            const token = JWT.sign({id}, process.env.SECRET, {
+    controller.loginUsers = (req, res) => {
+        const {cpf, senha} = req.body
+        const findUser = usersMock.data.find((user) => user.cpf == cpf && user.senha == senha)
+        
+        if(findUser) {
+            const token = JWT.sign({cpf}, process.env.SECRET, {
                 expiresIn: 300
             })
             return res.json({auth: true, token: token})
         }
-        res.status(500).json({message: 'Login inválido!'})
+
+        res.status(500).json({message: 'Login inválido'})
     }
 
     controller.logoutUsers = (req, res) => {
