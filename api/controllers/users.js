@@ -12,16 +12,33 @@ module.exports = app => {
     } = usersDB
 
     controller.verifyJWT = (req, res, next) => {
-        const token = req.headers['x-access-token']
-        const {cpf} = req.body
-        if(!token) return res.status(401).json({auth: false, message: 'No token provided.'})
+        const token = req.body.token || req.query.token || req.headers['x-access-token']
+
+        if(token) {
+            JWT.verify(token, process.env.send, function(err, decoded) {
+                if(err) {
+                    return res.json({success: false, message: 'Failed to authenticate token'})
+                } else {
+                    req.decoded = decoded
+                    next()
+                }
+            })
+        } else {
+            return res.status(403).send({
+                success: false,
+                message: 'No token provided.'
+            })
+        }
+        
+        /* if(!token) return res.status(401).json({auth: false, message: 'No token provided.'})
     
         JWT.verify(token, process.env.SECRET, (err, decoded) => {
             if(err) return res.status(500).json({auth: false, message: 'Failed to authenticate token.'})
 
+            const {cpf} = req.body
             cpf = decoded.cpf
             next()
-        })
+        }) */
     }
 
     controller.loginUsers = (req, res) => {
