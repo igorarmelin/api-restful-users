@@ -15,7 +15,7 @@ module.exports = app => {
         const token = req.body.token || req.query.token || req.headers['x-access-token']
 
         if(token) {
-            JWT.verify(token, process.env.send, function(err, decoded) {
+            JWT.verify(token, process.env.SECRET, function(err, decoded) {
                 if(err) {
                     return res.json({success: false, message: 'Failed to authenticate token'})
                 } else {
@@ -35,8 +35,7 @@ module.exports = app => {
         JWT.verify(token, process.env.SECRET, (err, decoded) => {
             if(err) return res.status(500).json({auth: false, message: 'Failed to authenticate token.'})
 
-            const {cpf} = req.body
-            cpf = decoded.cpf
+            req.cpf = decoded.cpf
             next()
         }) */
     }
